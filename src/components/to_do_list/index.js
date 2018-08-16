@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Item from './item';
 import Input from './input';
+import {formatPostData} from '../../helpers';
 import './list.css';
 
 class ToDoList extends Component {
@@ -24,13 +25,42 @@ class ToDoList extends Component {
         this.deleteItem = this.deleteItem.bind(this);
     }
 
-    componentWillMount() {
+    async componentWillMount() {
         this.getListData();
+        // const resp = await axios.get('http://localhost:8000/api/index.php');
+        // const resp = await axios.get('/api/get_data.php');
+        
+        // const dataToSend = formatPostData({
+        //     message: 'Hello from the frontend',
+        //     favColor: 'BLUE',
+        //     birthday: '2/22/22'
+        // });
+
+        // const params = new URLSearchParams();
+        // params.append('message', 'Hello from the frontend');
+        // params.append('favColor', 'blue');
+        // params.append('birthday', '2/22/22');
+        
+        // const resp = await axios.get('/api/todos.php?some=value&name=Bob');
+        // const resp = await axios.get('/api/todos.php?some=value&name=Bob&age=67', dataToSend);
+        // const resp = await axios.put('/api/todos.php?some=value&name=Bob&age=67', dataToSend);
+
+        // const resp = await axios.get('/api/todos.php', {
+        // params: {
+        //     action: 'get_all_todos'
+        // }
+        // });
+
+        console.log('Resp from server', resp)
     }
 
     async getListData() {
         // Use get request to get list data
-        const response = { data: {}}; // Remove
+        const response =  await axios.get('/api/todos.php', {
+            params: {
+                action: 'get_all_todos'
+            }
+            });; // Remove
 
         const { message, listItems } = response.data;
 
