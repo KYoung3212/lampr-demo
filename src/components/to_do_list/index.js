@@ -51,7 +51,6 @@ class ToDoList extends Component {
         // }
         // });
 
-        console.log('Resp from server', resp)
     }
 
     async getListData() {
@@ -90,7 +89,14 @@ class ToDoList extends Component {
         e.preventDefault();
         // Item @ this.state.newItem
         // Use post method to send new item to DB
-        const response = {data: {success: true}}; // Remove
+
+        const dataToSend = formatPostData(this.state.newItem)
+        const response = await axios.post('/api/todos.php', dataToSend, {
+            params: {
+                action: 'add_item'
+            }
+            });
+        // const response = {data: {success: true}}; // Remove
 
         const { errors, success } = response.data;
 
@@ -127,7 +133,11 @@ class ToDoList extends Component {
         };
 
         // Use patch request to update item based on id
-
+        const response = await axios.patch('/api/todos.php', dataToSend, {
+            params: {
+                action: 'toggle_complete'
+            }
+        });
         this.getListData();
     }
 

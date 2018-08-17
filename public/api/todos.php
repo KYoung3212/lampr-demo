@@ -26,13 +26,20 @@ switch($method){
     // $output['action']= $action;
         break;
     case 'POST':
-        $output['message'] = 'POST request made';
+        require_once('post/'.$action.'.php');
+
+        // $output['message'] = 'POST request made';
         break;
     case 'PUT':
         $output['message'] = 'PUT request made';
         break;
     case 'PATCH':
+        $_PATCH = json_decode(file_get_contents('php://input'), true);
+
+        require_once('patch/'.$action.'.php');
+
         $output['message'] = 'PATCH request made';
+        break;
     case 'DELETE':
         $output ['message'] = 'DELETE request made';
         break;
